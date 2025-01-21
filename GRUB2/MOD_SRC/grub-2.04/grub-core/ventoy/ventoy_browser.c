@@ -529,17 +529,21 @@ grub_err_t ventoy_cmd_browser_dir(grub_extcmd_context_t ctxt, int argc, char **a
         return 1;
     }
 
-    fs = (grub_fs_t)grub_strtoul(args[1], NULL, 16);
-    if (!fs)
-    {
-        debug("Invalid fs %s\n", args[1]);
-        return 1;
-    }
-    
     dev = grub_device_open(args[0]);
     if (!dev)
     {
         debug("Failed to open device %s\n", args[0]);
+        return 1;
+    }
+
+    if (args[1][0] == '-') {
+        fs = grub_fs_probe(dev);
+    } else {
+        fs = (grub_fs_t)grub_strtoul(args[1], NULL, 16);
+    }
+    if (!fs)
+    {
+        debug("Invalid fs %s\n", args[1]);
         return 1;
     }
     
@@ -568,8 +572,8 @@ grub_err_t ventoy_cmd_browser_dir(grub_extcmd_context_t ctxt, int argc, char **a
     }
     else
     {
-        browser_ssprintf(&mbuf, "menuentry \"[(%s)%s/..]\" --class=\"vtoyret\" VTOY_RET {\n  "
-                         "  echo 'return ...' \n}\n", args[0], g_menu_path_buf);        
+        browser_ssprintf(&mbuf, "menuentry \"%s\" --class=\"vtoyret\" VTOY_RET {\n  "
+                         "  echo 'return ...' \n}\n", "<-- Back");        
     }
 
     for (i = 1; i >= 0; i--)

@@ -2472,9 +2472,9 @@ static int ventoy_dynamic_tree_menu(img_iterator_node *node)
         else
         {
             vtoy_ssprintf(g_tree_script_buf, g_tree_script_pos, 
-                          "menuentry \"[%s/..]\" --class=\"vtoyret\" VTOY_RET {\n  "
+                          "menuentry \"%s\" --class=\"vtoyret\" VTOY_RET {\n  "
                           "  echo 'return ...' \n"
-                          "}\n", node->dir);
+                          "}\n", "<-- Back");
         }
     }
 
