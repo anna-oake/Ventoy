@@ -536,9 +536,12 @@ grub_err_t ventoy_cmd_browser_dir(grub_extcmd_context_t ctxt, int argc, char **a
         return 1;
     }
 
-    if (args[1][0] == '-') {
+    if (args[1][0] == '-')
+    {
         fs = grub_fs_probe(dev);
-    } else {
+    }
+    else
+    {
         fs = (grub_fs_t)grub_strtoul(args[1], NULL, 16);
     }
     if (!fs)
